@@ -26,7 +26,7 @@ export const useNavigation = (t, docsLink, headerNavModules) => {
       home: true,
       console: true,
       pricing: true,
-      docs: true,
+      docs: false,
       about: true,
     };
 

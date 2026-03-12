@@ -61,7 +61,8 @@ const PageLayout = () => {
     '/pricing',
   ];
 
-  const shouldHideFooter = cardProPages.includes(location.pathname);
+  // const shouldHideFooter = cardProPages.includes(location.pathname);
+  const shouldHideFooter = true;
 
   const shouldInnerPadding =
     location.pathname.includes('/console') &&

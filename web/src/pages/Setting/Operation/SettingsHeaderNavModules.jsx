@@ -46,7 +46,7 @@ export default function SettingsHeaderNavModules(props) {
       enabled: true,
       requireAuth: false, // 默认不需要登录鉴权
     },
-    docs: true,
+    docs: false,
     about: true,
   });
 
@@ -86,7 +86,7 @@ export default function SettingsHeaderNavModules(props) {
         enabled: true,
         requireAuth: false,
       },
-      docs: true,
+      docs: false,
       about: true,
     };
     setHeaderNavModules(defaultModules);
@@ -152,7 +152,7 @@ export default function SettingsHeaderNavModules(props) {
             enabled: true,
             requireAuth: false,
           },
-          docs: true,
+          docs: false,
           about: true,
         };
         setHeaderNavModules(defaultModules);
