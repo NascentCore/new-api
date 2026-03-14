@@ -23,6 +23,10 @@ web/bun.lock
 plans
 .claude
 
+# Cursor continual-learning plugin's intermediate processing data files.
+.cursor/hooks/state/continual-learning.json
+.cursor/hooks/state/continual-learning-index.json
+
 electron/node_modules
 electron/dist
 data/
