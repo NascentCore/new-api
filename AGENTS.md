@@ -134,3 +134,10 @@ For request structs that are parsed from client JSON and then re-marshaled to up
   - field absent in client JSON => `nil` => omitted on marshal;
   - field explicitly set to zero/false => non-`nil` pointer => must still be sent upstream.
 - Avoid using non-pointer scalars with `omitempty` for optional request parameters, because zero values (`0`, `0.0`, `false`) will be silently dropped during marshal.
+
+## Learned User Preferences
+
+## Learned Workspace Facts
+
+- If Stripe returns "No such customer" for a stored customer ID, clear that user's stripe_customer in DB (or retry checkout without customer ID so Stripe creates a new customer); webhook will store the new ID.
+- For Vertex AI publisher models (e.g. gemini-3.1-pro-preview), endpoint inferenceTimeout does not apply; server deadline is 10 min; use streaming (stream: true) and optionally increase STREAMING_TIMEOUT for long thinking pauses.
