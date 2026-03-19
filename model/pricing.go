@@ -21,6 +21,7 @@ type Pricing struct {
 	Tags                   string                  `json:"tags,omitempty"`
 	VendorID               int                     `json:"vendor_id,omitempty"`
 	QuotaType              int                     `json:"quota_type"`
+	PricingConfigured      bool                    `json:"pricing_configured"`
 	ModelRatio             float64                 `json:"model_ratio"`
 	ModelPrice             float64                 `json:"model_price"`
 	OwnerBy                string                  `json:"owner_by"`
@@ -296,11 +297,19 @@ func updatePricing() {
 		if findPrice {
 			pricing.ModelPrice = modelPrice
 			pricing.QuotaType = 1
+			pricing.PricingConfigured = true
 		} else {
-			modelRatio, _, _ := ratio_setting.GetModelRatio(model)
-			pricing.ModelRatio = modelRatio
+			modelRatio, hasConfiguredRatio := ratio_setting.GetConfiguredModelRatio(model)
+			if hasConfiguredRatio {
+				pricing.ModelRatio = modelRatio
+			} else {
+				// 保持运行时默认倍率逻辑不变，但对前端显式标记为“未配置定价”。
+				fallbackRatio, _, _ := ratio_setting.GetModelRatio(model)
+				pricing.ModelRatio = fallbackRatio
+			}
 			pricing.CompletionRatio = ratio_setting.GetCompletionRatio(model)
 			pricing.QuotaType = 0
+			pricing.PricingConfigured = hasConfiguredRatio
 		}
 		if cacheRatio, ok := ratio_setting.GetCacheRatio(model); ok {
 			pricing.CacheRatio = &cacheRatio

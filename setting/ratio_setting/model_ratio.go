@@ -410,6 +410,20 @@ func GetModelRatio(name string) (float64, bool, string) {
 	return ratio, true, name
 }
 
+// GetConfiguredModelRatio 仅返回显式配置的模型倍率，不包含默认兜底(37.5)逻辑。
+func GetConfiguredModelRatio(name string) (float64, bool) {
+	name = FormatMatchingModelName(name)
+
+	if strings.HasSuffix(name, CompactModelSuffix) {
+		if wildcardRatio, ok := modelRatioMap.Get(CompactWildcardModelKey); ok {
+			return wildcardRatio, true
+		}
+		return 0, false
+	}
+
+	return modelRatioMap.Get(name)
+}
+
 func DefaultModelRatio2JSONString() string {
 	jsonBytes, err := common.Marshal(defaultModelRatio)
 	if err != nil {
