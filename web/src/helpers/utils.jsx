@@ -645,18 +645,7 @@ export const calculateModelPrice = ({
     }
   }
 
-  // 2. 未显式配置价格/倍率时，不展示推导后的价格，避免误导
-  if (record.pricing_configured === false) {
-    return {
-      isUnconfiguredPricing: true,
-      isPerToken: record.quota_type === 0,
-      isTokensDisplay: quotaDisplayType === 'TOKENS',
-      usedGroup,
-      usedGroupRatio,
-    };
-  }
-
-  // 3. 根据计费类型计算价格
+  // 2. 根据计费类型计算价格
   if (record.quota_type === 0) {
     // 按量计费
     const isTokensDisplay = quotaDisplayType === 'TOKENS';
@@ -777,17 +766,6 @@ export const getModelPriceItems = (
   t,
   quotaDisplayType = 'USD',
 ) => {
-  if (priceData.isUnconfiguredPricing) {
-    return [
-      {
-        key: 'unconfigured',
-        label: t('价格状态'),
-        value: t('未设置价格'),
-        suffix: '',
-      },
-    ];
-  }
-
   if (priceData.isPerToken) {
     if (quotaDisplayType === 'TOKENS' || priceData.isTokensDisplay) {
       return [
